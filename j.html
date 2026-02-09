@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Make a Wish 💫</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: radial-gradient(circle at top, #1b1f3b, #05060f);
+    overflow: hidden;
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .container {
+    text-align: center;
+    z-index: 2;
+  }
+
+  button {
+    padding: 14px 28px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(45deg, #7fd4ff, #c77dff);
+    color: #fff;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .star {
+    position: fixed;
+    top: -100px;
+    width: 4px;
+    height: 90px;
+    background: linear-gradient(transparent, white);
+    animation: fall 1.2s linear forwards;
+    z-index: 1;
+  }
+
+  @keyframes fall {
+    from {
+      transform: translateY(-100px);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(110vh);
+      opacity: 0;
+    }
+  }
+
+  .valentine {
+    display: none;
+    animation: fadeIn 1.5s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .choices {
+    margin-top: 20px;
+  }
+
+  .choices button {
+    margin: 10px;
+  }
+
+  #noBtn {
+    position: fixed;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <button id="wishBtn">✨ Make a Wish ✨</button>
+
+  <div class="valentine" id="valentine">
+    <h1>💖 Will you be my Valentine? 💖</h1>
+    <div class="choices">
+      <button onclick="alert('Yay!! 💕')">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const wishBtn = document.getElementById('wishBtn');
+  const valentine = document.getElementById('valentine');
+  const noBtn = document.getElementById('noBtn');
+
+  wishBtn.addEventListener('click', () => {
+    for (let i = 0; i < 30; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * window.innerWidth + 'px';
+      star.style.animationDelay = Math.random() * 0.5 + 's';
+      document.body.appendChild(star);
+
+      setTimeout(() => star.remove(), 1500);
+    }
+
+    setTimeout(() => {
+      wishBtn.style.display = 'none';
+      valentine.style.display = 'block';
+    }, 1300);
+  });
+
+  function moveNoButton() {
+    const padding = 20;
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - btnWidth - padding;
+    const maxY = window.innerHeight - btnHeight - padding;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + 'px';
+    noBtn.style.top = y + 'px';
+  }
+
+  // Desktop
+  noBtn.addEventListener('mouseenter', moveNoButton);
+
+  // Mobile
+  noBtn.addEventListener('touchstart', moveNoButton);
+  noBtn.addEventListener('click', moveNoButton);
+</script>
+
+</body>
+</html>
