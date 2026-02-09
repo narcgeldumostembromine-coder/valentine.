@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Make a Wish</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #1b1f3b, #05060f);
+      overflow: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      touch-action: none; /* Prevents accidental zooming/scrolling */
+    }
+
+    .container {
+      text-align: center;
+      z-index: 2;
+      padding: 20px;
+    }
+
+    h1 { font-size: 2rem; margin-bottom: 20px; }
+
+    button {
+      padding: 16px 32px;
+      font-size: 18px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(45deg, #7fd4ff, #c77dff);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(127, 212, 255, 0.3);
+      transition: transform 0.2s;
+    }
+
+    button:active { transform: scale(0.95); }
+
+    .star {
+      position: fixed;
+      top: -100px;
+      width: 3px;
+      height: 70px;
+      background: linear-gradient(transparent, white);
+      animation: fall 1.2s linear forwards;
+      z-index: 1;
+    }
+
+    @keyframes fall {
+      to { transform: translateY(110vh); opacity: 0; }
+    }
+
+    .valentine {
+      display: none;
+      animation: fadeIn 1.5s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #noBtn { position: absolute; }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <button id="wishBtn">Make a Wish ✨</button>
+
+  <div class="valentine" id="valentine">
+    <h1>Will you be my Valentine? 🌹</h1>
+    <div class="choices">
+      <button onclick="alert('Yay!! ❤️')">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const wishBtn = document.getElementById('wishBtn');
+  const valentine = document.getElementById('valentine');
+  const noBtn = document.getElementById('noBtn');
+
+  wishBtn.addEventListener('click', () => {
+    // Shooting stars effect
+    for (let i = 0; i < 35; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDelay = Math.random() * 0.8 + 's';
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 2000);
+    }
+
+    setTimeout(() => {
+      wishBtn.style.display = 'none';
+      valentine.style.display = 'block';
+      // Set initial position for "No" button
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = '50%';
+      noBtn.style.marginLeft = '10px'; 
+    }, 1300);
+  });
+
+  function moveNoButton(e) {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+    
+    // Calculate safe boundaries
+    const maxX = window.innerWidth - btnWidth - 20;
+    const maxY = window.innerHeight - btnHeight - 20;
+
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+
+    noBtn.style.left = newX + 'px';
+    noBtn.style.top = newY + 'px';
+    noBtn.style.margin = '0';
+  }
+
+  noBtn.addEventListener('touchstart', (e) => {
+    e.preventDefault(); // Prevents clicking
+    moveNoButton();
+  });
+  noBtn.addEventListener('mouseover', moveNoButton);
+</script>
+</body>
+</html>
